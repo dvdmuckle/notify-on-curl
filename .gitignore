@@ -1,0 +1,9 @@
+*
+!.gitignore
+!*.md
+!*.go
+!*.yml
+!Dockerfile
+!*.sh
+!vendor/*
+!*.json
