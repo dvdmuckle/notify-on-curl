@@ -34,7 +34,7 @@ func serveRequest(w http.ResponseWriter, r *http.Request, key string) {
 	switch r.Method {
 	case "POST":
 		if r.URL.Path == fmt.Sprintf("/%s", key) {
-			notify.Notify("Door Cam", "notice", "Someone's at the door", "")
+			notify.Notify("Door Cam", "Door Cam", "Someone's at the door", "")
 		}
 	default:
 		fmt.Fprintln(w, "Method not supported!")
