@@ -4,18 +4,14 @@ import (
 	"fmt"
 	"github.com/gorilla/handlers"
 	"github.com/martinlindhe/notify"
+	"github.com/satori/go.uuid"
 	"log"
-	"math/rand"
 	"net/http"
 	"os"
 	"strconv"
-	"time"
 )
 
-var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
-
 func setup() (int, string) {
-	rand.Seed(time.Now().UnixNano())
 	notifyPort := 8080
 	if os.Getenv("PORT") != "" {
 		var err error
@@ -24,11 +20,8 @@ func setup() (int, string) {
 			log.Fatal(err)
 		}
 	}
-	key := make([]rune, 16)
-	for i := range key {
-		key[i] = letterRunes[rand.Intn(len(letterRunes))]
-	}
-	return notifyPort, string(key)
+	key := uuid.NewV4()
+	return notifyPort, key.String()
 }
 func serveRequest(w http.ResponseWriter, r *http.Request, key string) {
 	switch r.Method {
