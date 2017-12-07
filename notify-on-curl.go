@@ -16,10 +16,10 @@ var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
 func setup() (int, string) {
 	rand.Seed(time.Now().UnixNano())
-	jokePort := 8080
+	notifyPort := 8080
 	if os.Getenv("PORT") != "" {
 		var err error
-		jokePort, err = strconv.Atoi(os.Getenv("PORT"))
+		notifyPort, err = strconv.Atoi(os.Getenv("PORT"))
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -28,7 +28,7 @@ func setup() (int, string) {
 	for i := range key {
 		key[i] = letterRunes[rand.Intn(len(letterRunes))]
 	}
-	return jokePort, string(key)
+	return notifyPort, string(key)
 }
 func serveRequest(w http.ResponseWriter, r *http.Request, key string) {
 	switch r.Method {
@@ -42,11 +42,11 @@ func serveRequest(w http.ResponseWriter, r *http.Request, key string) {
 }
 
 func main() {
-	jokePort, key := setup()
-	fmt.Printf("Serving on port %d, key is %s\n", jokePort, key)
+	notifyPort, key := setup()
+	fmt.Printf("Serving on port %d, key is %s\n", notifyPort, key)
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		serveRequest(w, r, key)
 	})
-	log.Fatal(http.ListenAndServe(":"+strconv.Itoa(jokePort),
+	log.Fatal(http.ListenAndServe(":"+strconv.Itoa(notifyPort),
 		handlers.LoggingHandler(os.Stdout, http.DefaultServeMux)))
 }
