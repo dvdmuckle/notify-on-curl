@@ -28,7 +28,10 @@ func serveRequest(w http.ResponseWriter, r *http.Request, key string) {
 	case "POST":
 		if r.URL.Path == fmt.Sprintf("/%s", key) {
 			notify.Notify("Door Cam", "Door Cam", "Someone's at the door", "")
+			fmt.Fprintln(w, "Notified!")
+			return
 		}
+		fmt.Fprintln(w, "Error or incorrect key!")
 	default:
 		fmt.Fprintln(w, "Method not supported!")
 	}
